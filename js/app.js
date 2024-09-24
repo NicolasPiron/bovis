@@ -1,17 +1,17 @@
-    // List of messages to display
-    const messages = [
-        "Beautiful!",
-        "Great shot!",
-        "Awesome picture!",
-        "Stunning!",
-        "Magnificent!",
-        "Lovely!",
-        "Fantastic!",
-        "Wonderful!",
-        "Superb!",
-        "Incredible!"
+    // Dictionary of ranges and messages
+    const messageRanges = [
+        { min: 0, max: 2000, message: "Very low score, better luck next time!" },
+        { min: 2001, max: 4000, message: "Nice pic!" },
+        { min: 4001, max: 10000, message: "Great photo, well done!" },
+        { min: 10001, max: 15000, message: "Wow! Impressive!" },
+        { min: 15001, max: 20000, message: "Superb shot!" },
+        { min: 20001, max: 25000, message: "Magnificent!" },
+        { min: 25001, max: 30000, message: "Incredible capture!" },
+        { min: 30001, max: 35000, message: "Unbelievable, great work!" },
+        { min: 35001, max: 40000, message: "You're a pro photographer!" }
       ];
   
+
       const video = document.getElementById('video');
       const captureButton = document.getElementById('captureButton');
       const canvas = document.getElementById('canvas');
@@ -50,12 +50,17 @@
         // Convert the canvas image to a data URL and display it
         const dataURL = canvas.toDataURL('image/png');
         capturedImage.src = dataURL;
+
+         // Generate a random number between 0 and 40000
+        const randomNumber = Math.floor(Math.random() * 40001);
   
-        // Select and display a random message
-        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-        messageDiv.textContent = randomMessage;
-      }
-  
+        // Find the message corresponding to the random number
+        const foundMessage = messageRanges.find(range => randomNumber >= range.min && randomNumber <= range.max);
+
+        // Display the random number and the message
+        randomNumberDiv.textContent = `Random Number: ${randomNumber}`;
+        messageDiv.textContent = foundMessage ? foundMessage.message : "No message found!";
+    }
       // Event listener for the capture button
       captureButton.addEventListener('click', capturePhoto);
   
