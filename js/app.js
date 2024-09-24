@@ -1,31 +1,63 @@
-// Select the HTML elements
-const video = document.getElementById('video');
-const canvas = document.getElementById('canvas');
-const photo = document.getElementById('photo');
-const captureButton = document.getElementById('capture');
-
-// Set up media stream (accessing the camera)
-navigator.mediaDevices.getUserMedia({ video: true })
-    .then((stream) => {
-        // Set the video source to the camera stream
-        video.srcObject = stream;
-    })
-    .catch((err) => {
-        console.error("Error accessing camera: ", err);
-    });
-
-// Capture photo when the button is clicked
-captureButton.addEventListener('click', () => {
-    const context = canvas.getContext('2d');
-    // Set canvas size to match the video element
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    // Draw the current video frame to the canvas
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    // Convert the canvas image to a data URL and display it in the img tag
-    const imageData = canvas.toDataURL('image/png');
-    photo.setAttribute('src', imageData);
-    // Optionally display the canvas as well
-    canvas.style.display = 'none'; // Set to 'block' if you want to display the canvas
-});
-
+    // List of messages to display
+    const messages = [
+        "Beautiful!",
+        "Great shot!",
+        "Awesome picture!",
+        "Stunning!",
+        "Magnificent!",
+        "Lovely!",
+        "Fantastic!",
+        "Wonderful!",
+        "Superb!",
+        "Incredible!"
+      ];
+  
+      const video = document.getElementById('video');
+      const captureButton = document.getElementById('captureButton');
+      const canvas = document.getElementById('canvas');
+      const capturedImage = document.getElementById('capturedImage');
+      const messageDiv = document.getElementById('message');
+  
+      // Function to start the camera
+      async function startCamera() {
+        try {
+          const constraints = {
+            video: {
+              facingMode: { exact: "environment" } // Use the back camera
+            }
+          };
+          const stream = await navigator.mediaDevices.getUserMedia(constraints);
+          video.srcObject = stream;
+        } catch (error) {
+          console.error("Error accessing the camera: ", error);
+          alert("Unable to access the back camera. Please ensure it's available and you have granted permission.");
+        }
+      }
+  
+      // Function to capture the photo
+      function capturePhoto() {
+        const context = canvas.getContext('2d');
+        const width = video.videoWidth;
+        const height = video.videoHeight;
+  
+        // Set canvas dimensions to video dimensions
+        canvas.width = width;
+        canvas.height = height;
+  
+        // Draw the current frame from the video onto the canvas
+        context.drawImage(video, 0, 0, width, height);
+  
+        // Convert the canvas image to a data URL and display it
+        const dataURL = canvas.toDataURL('image/png');
+        capturedImage.src = dataURL;
+  
+        // Select and display a random message
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        messageDiv.textContent = randomMessage;
+      }
+  
+      // Event listener for the capture button
+      captureButton.addEventListener('click', capturePhoto);
+  
+      // Start the camera on page load
+      window.addEventListener('load', startCamera);
