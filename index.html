@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Camera App</title>
+  <title>Mesure de fréquences vibratoires</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -28,33 +28,56 @@
       border: 1px solid #ccc;
       border-radius: 8px;
     }
+    
     #message {
       margin-top: 10px;
       font-size: 18px;
       color: #333;
+      margin-bottom: 10px;
     }
+
+    #instructions {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    #scaleCanvas {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 400px;
+      height: 200px;
+    }
+
   </style>
 </head>
 <body>
 
-  <h1>Camera App</h1>
+  <h1>Mesure de fréquences vibratoires</h1>
 
   <!-- Video stream from the camera -->
   <video id="video" autoplay playsinline></video>
+
+  <!-- Instruction paragraph -->
+  <p id="instructions">Prenez en photo un object ou une personne pour calculer sa frequence vibratoire en bovis (unités scientifiques)</p>
   
   <!-- Button to capture the photo -->
-  <button id="captureButton">Take Photo</button>
+  <button id="captureButton">Prendre une photo</button>
   
   <!-- Canvas to capture the image -->
   <canvas id="canvas" style="display: none;"></canvas>
   
   <!-- Image element to display the captured photo -->
   <img id="capturedImage" src="" alt="Captured Image">
+
+  <!-- Canvas for the semi-circular scale -->
+  <canvas id="scaleCanvas" width="400" height="200"></canvas>
+
   
   <!-- Div to display the random number and message -->
   <div id="randomNumber"></div>
   <div id="message"></div>
-  
+
   <!-- JavaScript to handle camera and capture -->
   <script src="js/app.js"></script>
 

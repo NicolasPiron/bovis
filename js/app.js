@@ -1,68 +1,224 @@
+document.addEventListener('DOMContentLoaded', function () {
     // Dictionary of ranges and messages
     const messageRanges = [
-        { min: 0, max: 2000, message: "Very low score, better luck next time!" },
-        { min: 2001, max: 4000, message: "Nice pic!" },
-        { min: 4001, max: 10000, message: "Great photo, well done!" },
-        { min: 10001, max: 15000, message: "Wow! Impressive!" },
-        { min: 15001, max: 20000, message: "Superb shot!" },
-        { min: 20001, max: 25000, message: "Magnificent!" },
-        { min: 25001, max: 30000, message: "Incredible capture!" },
-        { min: 30001, max: 35000, message: "Unbelievable, great work!" },
-        { min: 35001, max: 40000, message: "You're a pro photographer!" }
+        {
+          min: 0,
+          max: 2000,
+          messages: [
+            "la CATA mec",
+            "c'est vraiment la honte",
+            "mal",
+            "brûler de la sauge de TOUTE URGENCE",
+            "Aie aie aie",
+            "Je préfère en rire",
+            "Faiblisssime",
+            "Aucune chance de rentrer à Poudlard"
+          ]
+        },
+        {
+          min: 2001,
+          max: 4000,
+          messages: [
+            "Pas terrible",
+            "Il faudrait revoir ça",
+            "Possible d'aller voir un Shaman?",
+            "C'est mort pour le chakra #narut",
+          ]
+        },
+        {
+          min: 4001,
+          max: 10000,
+          messages: [
+            "Great photo, well done!",
+            "Nice energy reading!",
+            "Vibrations look solid!",
+            "Impressive frequency!",
+            "Strong energy!"
+          ]
+        },
+        {
+          min: 10001,
+          max: 20000,
+          messages: [
+            "You're a pro photographer!",
+            "Amazing vibrations!",
+            "Off the charts!",
+            "Wow! Impressive!",
+            "Your energy is high!"
+          ]
+        },
+        {
+            min: 20001,
+            max: 30000,
+            messages: [
+              "BRAVO pour la collection de cristeaux mauves",
+              "Amazing vibrations!",
+              "Off the charts!",
+              "Wow! Impressive!",
+              "Your energy is high!"
+            ]
+          },
+          {
+            min: 30001,
+            max: 35000,
+            messages: [
+              "You're a pro photographer!",
+              "Amazing vibrations!",
+              "Off the charts!",
+              "Wow! Impressive!",
+              "Your energy is high!"
+            ]
+          },
+          {
+            min: 35001,
+            max: 40000,
+            messages: [
+              "Singerie de vibrer autant",
+              "Amazing vibrations!",
+              "Off the charts!",
+              "Wow! Impressive!",
+              "Your energy is high!"
+            ]
+          }
       ];
   
+    const video = document.getElementById('video');
+    const captureButton = document.getElementById('captureButton');
+    const canvas = document.getElementById('canvas');
+    const capturedImage = document.getElementById('capturedImage');
+    const randomNumberDiv = document.getElementById('randomNumber');
+    const messageDiv = document.getElementById('message');
+    const scaleCanvas = document.getElementById('scaleCanvas');
+    const scaleCtx = scaleCanvas.getContext('2d');
+    let isPhotoTaken = false; // Flag to check if a photo has been taken
 
-      const video = document.getElementById('video');
-      const captureButton = document.getElementById('captureButton');
-      const canvas = document.getElementById('canvas');
-      const capturedImage = document.getElementById('capturedImage');
-      const messageDiv = document.getElementById('message');
+    // Function to draw the semi-circular scale
+    function drawScale(randomNumber) {
+        const maxValue = 40000;
+        const centerX = scaleCanvas.width / 2;
+        const centerY = scaleCanvas.height;
+        const radius = 150;
+        const startAngle = Math.PI;
+        const endAngle = 2 * Math.PI;
+
+        // Clear previous drawing
+        scaleCtx.clearRect(0, 0, scaleCanvas.width, scaleCanvas.height);
+
+        // Draw the semi-circular scale (colored segments)
+        const gradient = scaleCtx.createLinearGradient(0, 0, scaleCanvas.width, 0);
+        gradient.addColorStop(0, '#ff0000'); // Red
+        gradient.addColorStop(0.5, '#ffff00'); // Yellow
+        gradient.addColorStop(1, '#00ff00'); // Green
+
+        scaleCtx.beginPath();
+        scaleCtx.arc(centerX, centerY, radius, startAngle, endAngle);
+        scaleCtx.lineWidth = 20;
+        scaleCtx.strokeStyle = gradient;
+        scaleCtx.stroke();
+        scaleCtx.closePath();
+
+        // Calculate the angle for the needle
+        const angle = startAngle + (randomNumber / maxValue) * (endAngle - startAngle);
+
+        // Draw the needle
+        scaleCtx.beginPath();
+        scaleCtx.moveTo(centerX, centerY);
+        scaleCtx.lineTo(centerX + radius * Math.cos(angle), centerY + radius * Math.sin(angle));
+        scaleCtx.lineWidth = 5;
+        scaleCtx.strokeStyle = '#000000'; // Black needle
+        scaleCtx.stroke();
+        scaleCtx.closePath();
+  }
   
-      // Function to start the camera
-      async function startCamera() {
+    // Function to start the camera
+    async function startCamera() {
         try {
-          const constraints = {
+            const constraints = {
             video: {
-              facingMode: { exact: "environment" } // Use the back camera
+                facingMode: { exact: "environment" } // Use the back camera
             }
-          };
-          const stream = await navigator.mediaDevices.getUserMedia(constraints);
-          video.srcObject = stream;
+            };
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            video.srcObject = stream;
         } catch (error) {
-          console.error("Error accessing the camera: ", error);
-          alert("Unable to access the back camera. Please ensure it's available and you have granted permission.");
+            console.error("Error accessing the camera: ", error);
+            alert("Unable to access the back camera. Please ensure it's available and you have granted permission.");
         }
-      }
+    }
+
+
+      // Function to stop the camera
+    function stopCamera() {
+        const stream = video.srcObject;
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());  // Stop each track
+        video.srcObject = null;  // Clear the video element's source
+    }
   
-      // Function to capture the photo
-      function capturePhoto() {
+    // Function to capture the photo
+    function capturePhoto() {
         const context = canvas.getContext('2d');
         const width = video.videoWidth;
         const height = video.videoHeight;
-  
+
         // Set canvas dimensions to video dimensions
         canvas.width = width;
         canvas.height = height;
-  
+
         // Draw the current frame from the video onto the canvas
         context.drawImage(video, 0, 0, width, height);
-  
+
         // Convert the canvas image to a data URL and display it
         const dataURL = canvas.toDataURL('image/png');
         capturedImage.src = dataURL;
 
-         // Generate a random number between 0 and 40000
+        // Generate a random number between 0 and 40000
         const randomNumber = Math.floor(Math.random() * 40001);
-  
-        // Find the message corresponding to the random number
-        const foundMessage = messageRanges.find(range => randomNumber >= range.min && randomNumber <= range.max);
 
-        // Display the random number and the message
-        randomNumberDiv.textContent = `Random Number: ${randomNumber}`;
-        messageDiv.textContent = foundMessage ? foundMessage.message : "No message found!";
+        // Find the message range corresponding to the random number
+        const foundRange = messageRanges.find(range => randomNumber >= range.min && randomNumber <= range.max);
+
+        // If a range is found, select a random message from the array
+        const randomMessage = foundRange ? foundRange.messages[Math.floor(Math.random() * foundRange.messages.length)] : "No message found!";
+
+        // Display the random number and the selected message
+        randomNumberDiv.textContent = `${randomNumber} Bovis`;
+        messageDiv.textContent = randomMessage;
+
+        // Draw the scale and needle
+        drawScale(randomNumber);
+
+        // Switch from video to the captured image
+        video.style.display = 'none';  // Hide the video feed
+        capturedImage.style.display = 'block';  // Show the captured image
+        captureButton.textContent = 'Reprendre une photo';  // Change button text
+        isPhotoTaken = true;  // Set the photo taken flag to true
+
+        // Stop the camera since we don't need it while the photo is shown
+        stopCamera();
     }
-      // Event listener for the capture button
-      captureButton.addEventListener('click', capturePhoto);
+
+        // Function to reset the camera (take another photo)
+    function resetToCamera() {
+        capturedImage.style.display = 'none';  // Hide the captured image
+        video.style.display = 'block';  // Show the video feed
+        captureButton.textContent = 'Prendre une photo';  // Change button text back
+        isPhotoTaken = false;  // Set the photo taken flag to false
+
+        // Restart the camera
+        startCamera();
+    }
   
-      // Start the camera on page load
-      window.addEventListener('load', startCamera);
+    // Event listener for the capture button
+    captureButton.addEventListener('click', function () {
+        if (isPhotoTaken) {
+        resetToCamera();  // If photo is taken, reset to camera feed
+        } else {
+        capturePhoto();  // Otherwise, capture the photo
+        }
+    });
+  
+    // Start the camera on page load
+    startCamera();
+  });
+  
