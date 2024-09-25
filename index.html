@@ -8,64 +8,114 @@
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 20px;
+      padding: 8px;
 
     h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-
-    }
-    #video {
-      width: 100%;
-      max-width: 400px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    #captureButton {
-      margin-top: 10px;
-      padding: 10px 20px;
       font-size: 16px;
-    }
-    #capturedImage {
-      margin-top: 20px;
-      width: 100%;
-      max-width: 400px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    
-    #message {
-      margin-top: 10px;
-      font-size: 18px;
-      color: #333;
-      margin-bottom: 10px;
+      margin-bottom: 1px;
     }
 
     #instructions {
       margin-top: 10px;
-      font-size: 14px;
+      font-size: 12px;
       color: #555;
       margin-bottom: 20px;
     }
 
-    #scaleCanvas {
-      margin-top: 20px;
-      width: 100%;
-      max-width: 400px;
-      height: 200px;
+    /* Flexbox container to center video/captured image */
+    .video-container {
+      display: flex;
+      justify-content: center; /* Center the video/image horizontally */
+      align-items: center; /* Align them vertically if needed */
+      margin-bottom: 3px;
     }
-    /* Loading spinner styles */
+
+
+    }
+        /* Style for video feed and captured image */
+    #video, #capturedImage {
+      width: 60%;  /* Adjusts to 100% of the container */
+      max-width: 300px; /* Example size, you can adjust this */
+      height: auto;  /* Keeps the aspect ratio */
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 5px; /* Adds spacing */
+    }
+
+    #capturedImage {
+      display: none; /* Hidden initially */
+    }
+
+      /* Flexbox container for button and result image */
+    .button-image-container {
+      display: flex;
+      justify-content: center; /* Center the container items */
+      align-items: center; /* Vertically align the image and button */
+      gap: 20px; /* Add space between the image and button */
+      margin-bottom: 20px; /* Space below the container */
+    }
+    #captureButton {
+      padding: 1x 1px;
+      font-size: 12px;
+    }
+
+    #resultImage {
+      max-width: 20%;
+      height: auto;
+      display: none; /* Initially hidden */
+    }
+
+    /* Flexbox to arrange random number, message, and result image side by side */
+    .result-message-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px; /* Space between message and image */
+      margin-bottom: 5px;
+    }
+
+        /* Center the message and scale vertically and horizontally */
+    .message-scale-container {
+      display: flex;
+      justify-content: center; /* Horizontally centers the scale */
+      align-items: center;     /* Vertically aligns the scale if needed */
+      margin-bottom: 20px;
+    }
+
+        /* Style for the random number and message */
+    #message, #randomNumber {
+      margin-top: 5px;
+      font-weight: bold;
+      font-size: 12px;
+      color: #333;
+      text-align: center;
+      margin-bottom: 1px;
+    }
+    /* #message {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #333;
+      margin-bottom: 10px;
+    } */
+
+    /* Style for the scale */
+    #scaleCanvas {
+      width: 100%;       /* Takes full width available */
+      max-width: 200px;  /* Restricts maximum width */
+      height: auto;      /* Maintains aspect ratio */
+    }
+        /* Loading spinner styles */
     #loadingSpinner {
       display: none; /* Initially hidden */
       margin-top: 20px;
+      align-self: center;
     }
     #loadingSpinner div {
       border: 4px solid #f3f3f3;
       border-radius: 50%;
       border-top: 4px solid #3498db;
-      width: 40px;
-      height: 40px;
+      width: 20px;
+      height: 20px;
       animation: spin 2s linear infinite;
     }
     @keyframes spin {
@@ -75,15 +125,11 @@
     #loadingMessage {
       display: none; /* Initially hidden */
       margin-top: 10px;
-      font-size: 16px;
+      font-size: 12px;
       color: #555;
+      align-items: center;
     }
-    #resultImage {
-      margin-top: 20px;
-      max-width: 100%;
-      height: auto;
-      display: none; /* Initially hidden */
-    }
+  
 
   </style>
 </head>
@@ -92,19 +138,42 @@
   <h1>Mesure de fréquences vibratoires</h1>
 
   <!-- Video stream from the camera -->
-  <video id="video" autoplay playsinline></video>
+  <!-- <video id="video" autoplay playsinline></video> -->
 
-  <!-- Instruction paragraph -->
-  <p id="instructions">Prenez en photo un object ou une personne pour calculer sa frequence vibratoire en bovis (unités scientifiques)</p>
-  
-  <!-- Button to capture the photo -->
-  <button id="captureButton">Prendre une photo</button>
-  
   <!-- Canvas to capture the image -->
   <canvas id="canvas" style="display: none;"></canvas>
+
+  <!-- Instruction paragraph -->
+  <p id="instructions">Prenez en photo un object ou une personne pour calculer sa frequence vibratoire en bovis (unités <u>scientifiques</u>).</p>
   
+  <div class="video-container">
+    <video id="video" autoplay playsinline></video>
+    <img id="capturedImage" src="" alt="Captured Image">
+  </div>
+
   <!-- Image element to display the captured photo -->
-  <img id="capturedImage" src="" alt="Captured Image">
+
+  <!-- <img id="capturedImage" src="" alt="Captured Image"> -->
+
+   <!-- Container for button and result image -->
+   <div class="button-image-container">
+    <!-- <img id="resultImage" src="" alt="Result Image"> -->
+    <button id="captureButton">Prendre une photo</button>
+  </div>
+
+  <div class="result-message-container">
+    <div>
+      <div id="randomNumber"></div>
+      <div id="message"></div>
+    </div>
+    <img id="resultImage" src="" alt="Result Image">
+  </div>
+
+  <!-- Container for the message and scale -->
+  <div class="message-scale-container">
+    <canvas id="scaleCanvas" width="400" height="200"></canvas>
+  </div>
+
 
   <!-- Loading spinner and message -->
   <div id="loadingSpinner">
@@ -116,13 +185,6 @@
   <!-- Canvas for the semi-circular scale -->
   <canvas id="scaleCanvas" width="400" height="200"></canvas>
   
-  <!-- Div to display the random number and message -->
-  <div id="randomNumber"></div>
-  <div id="message"></div>
-
-  <!-- Image element to display the result image -->
-  <img id="resultImage" src="" alt="Result Image">
-
   <!-- JavaScript to handle camera and capture -->
   <script src="js/app.js"></script>
 

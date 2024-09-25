@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const constraints = {
             video: {
-                facingMode: { exact: "environment" } // Use the back camera
+                facingMode: "environment" // Use the back camera
             }
             };
             const stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const randomNumber = Math.floor(Math.random() * 40001);
             const foundRange = messageRanges.find(range => randomNumber >= range.min && randomNumber <= range.max);
             const randomMessage = foundRange ? foundRange.messages[Math.floor(Math.random() * foundRange.messages.length)] : "No message found!";
-            randomNumberDiv.textContent = `${randomNumber} Bovis`;
+            randomNumberDiv.textContent = `${randomNumber} BOVIS`;
             messageDiv.textContent = randomMessage;
             
             
