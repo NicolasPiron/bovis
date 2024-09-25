@@ -9,8 +9,11 @@ document.addEventListener('DOMContentLoaded', function () {
             "c'est vraiment la honte",
             "brûler de la sauge de TOUTE URGENCE",
             "Aie aie aie",
+            "Ne pas toucher cet objet ou individu",
             "Je préfère en rire",
-            "mal mal mal"
+            "mal mal mal",
+            "gerbe",
+            "Aucune défense contre les forces du mal"
           ],
           image: 'img/annoyed.jpg'
         },
@@ -20,11 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
           messages: [
             "Pas terrible",
             "Il faudrait revoir ça",
-            "Possible d'aller voir un Shaman?",
+            "Consutler un chamane au plus vite",
             "C'est mort pour le chakra #narut",
             'Fréquence de parking souterrain',
-            "WOW c'est nul à CHIER",
-            "mal" 
+            "grosse merde va",
+            "mal", 
           ],
           image: 'img/bored.jpg'
         },
@@ -47,20 +50,25 @@ document.addEventListener('DOMContentLoaded', function () {
           messages: [
             "Presque potable (in term of bovis)",
             "ça vibrotte",
-            "Wow (non c'est nul)"
+            "Wow (non c'est pas vraiment ça)",
+            "yeul",
+            "Potentiel pour devenir influenceur yoga au mieux",
+            "Une améthyste dans le fiak et ça repart"
           ],
           image: 'img/dumb.jpg'
         },
         {
-            min: 20001,
-            max: 25000,
-            messages: [
-                "bien",
-                "concentre toi un peu mais c'est bien",
-                "ça vibre",
-                "peut faire un bachelor de psycho"
-            ],
-            image: 'img/bien.jpg'
+          min: 20001,
+          max: 25000,
+          messages: [
+              "concentre toi mais ok",
+              "ça vibre",
+              "Elligible pour un bachelor en psycho au mieux",
+              "Juste un peu de sauge et on y est",
+              "Autorisation d'utiliser un pendule divinatoire",
+              "Protégé des entités maléfiques"
+          ],
+          image: 'img/bien.jpg'
 
         },
         {
@@ -70,8 +78,9 @@ document.addEventListener('DOMContentLoaded', function () {
               "BRAVO pour la collection de cristeaux",
               "Impressive (in term of bovis)",
               "ça vibre ça vibre",
-              "Bovissely speaking",
-              "bloinstre"
+              "Bovissely speaking, c'est oui",
+              "Remarquable (in term of bovis)",
+              "Elligible pour devenir coach spirituel"
             ],
           image: 'img/smile.jpg'
           },
@@ -84,6 +93,8 @@ document.addEventListener('DOMContentLoaded', function () {
               "Je peux vous acheter un cristal?",
               "neurones qui vibrent",
               "esotérisme et tutti quanti",
+              "^ full of bovis",
+              "Potentiel pour devenir thérapeute energétique"
             ],
           image: 'img/nice.jpg'
           },
@@ -91,7 +102,9 @@ document.addEventListener('DOMContentLoaded', function () {
             min: 35001,
             max: 40000,
             messages: [
-              "Singerie de vibrer autant",
+              "Bovisserie, j'ai pas raison la team?",
+              "Cosmisme",
+              "ça casse le compteur ou quoi!?",
               "blirp blorg barf (alien language)",
               "les larmes (die Larmen)",
             ],
@@ -111,6 +124,28 @@ document.addEventListener('DOMContentLoaded', function () {
     const loadingMessage = document.getElementById('loadingMessage');
     const resultImage = document.getElementById('resultImage');  // Get the result image element
     let isPhotoTaken = false; // Flag to check if a photo has been taken
+
+    const infoIcon = document.getElementById('infoIcon');
+    const infoModal = document.getElementById('infoModal');
+    const closeBtn = document.getElementById('closeBtn');
+
+    // When the user clicks on the icon, open the modal
+    infoIcon.addEventListener('click', function() {
+      infoModal.style.display = 'block';
+    });
+
+    // When the user clicks on the close button, close the modal
+    closeBtn.addEventListener('click', function() {
+      infoModal.style.display = 'none';
+    });
+
+    // Close the modal if user clicks anywhere outside the modal content
+    window.onclick = function(event) {
+      if (event.target == infoModal) {
+        infoModal.style.display = 'none';
+      }
+    }
+
 
     // Function to draw the semi-circular scale
     function drawScale(randomNumber) {
@@ -256,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const randomNumber = Math.floor(Math.random() * 40001);
             const foundRange = messageRanges.find(range => randomNumber >= range.min && randomNumber <= range.max);
             const randomMessage = foundRange ? foundRange.messages[Math.floor(Math.random() * foundRange.messages.length)] : "No message found!";
-            randomNumberDiv.textContent = `${randomNumber} BOVIS`;
+            randomNumberDiv.textContent = `${randomNumber} Unités Bovis`;
             messageDiv.textContent = randomMessage;
             
             

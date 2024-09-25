@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mesure de fréquences vibratoires</title>
+  <title>Mesure des fréquences vibratoires</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,9 +15,63 @@
       margin-bottom: 1px;
     }
 
+    /* Small "i" information icon */
+    .info-icon {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+      background-color: #007BFF; /* Blue background */
+      border-radius: 50%; /* Makes it a circle */
+      width: 15px;
+      height: 15px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      position: fixed;
+      top: 10px; /* Positioning at top-right */
+      right: 10px;
+    }
+
+    /* Modal window styles */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1000; /* Sits on top of the page */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    }
+
+    /* Modal content */
+    .modal-content {
+      background-color: white;
+      margin: 15% auto;
+      padding: 10px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    /* Close button */
+    .close-btn {
+      background-color: #f44336;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
     #instructions {
       margin-top: 10px;
-      font-size: 12px;
+      font-size: 14px;
       color: #555;
       margin-bottom: 20px;
     }
@@ -29,7 +83,6 @@
       align-items: center; /* Align them vertically if needed */
       margin-bottom: 3px;
     }
-
 
     }
         /* Style for video feed and captured image */
@@ -56,16 +109,16 @@
     }
     #captureButton {
       padding: 1x 1px;
-      font-size: 12px;
+      font-size: 14px;
     }
 
     #resultImage {
       max-width: 20%;
       height: auto;
       display: none; /* Initially hidden */
-      border: 3px solid #000000; /* Adds a black frame with 5px thickness */
+      border: 1px solid #000000; /* Adds a black frame with 5px thickness */
       border-radius: 5px; /* Optional: Rounds the corners */
-      padding: 1px; /* Adds some space inside the border */
+      /* Adds some space inside the border */
       box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5); /* Optional: Adds shadow to the frame */
     }
 
@@ -83,14 +136,27 @@
       display: flex;
       justify-content: center; /* Horizontally centers the scale */
       align-items: center;     /* Vertically aligns the scale if needed */
-      margin-bottom: 20px;
+      margin-bottom: 0px;
     }
 
         /* Style for the random number and message */
+
+      /* #message {
+        margin-top: 5px;
+        font-size: 12px;
+        color: #333;
+        text-align: left;
+        margin-bottom: 1px;
+        border: 1px solid #ccc;     
+        padding: 10px;              
+        background-color: #f9f9f9;   
+        box-shadow: 3px 3px 5px #eee; 
+
+    } */
     #message, #randomNumber {
       margin-top: 5px;
       font-weight: bold;
-      font-size: 12px;
+      font-size: 14px;
       color: #333;
       text-align: center;
       margin-bottom: 1px;
@@ -134,12 +200,42 @@
       align-items: center;
     }
   
+  footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #966196;
+    color: white;
+    text-align: center;
+    padding: 1px 0; /* Reduces padding, making the footer thinner */
+    font-size: 0.3rem;
+  }
+  
 
   </style>
 </head>
 <body>
 
   <h1>Mesure de fréquences vibratoires</h1>
+
+   <!-- Small "i" information icon -->
+   <div class="info-icon" id="infoIcon">i</div>
+
+   <!-- Modal Popup -->
+   <div id="infoModal" class="modal">
+     <div class="modal-content">
+       <h2>Qu'est-ce que la fréquence vibratoire?</h2>
+       <p>Notre fréquence vibratoire nous renseigne sur notre vitalité énergétique absolue. Elle est à distinguer du taux de vitalité, qui nous renseigne sur notre vitalité énergétique relative.
+        Il existe des méthodes pour augmenter son taux vibratoire.
+        Les mesures électriques des signaux du cerveau par les sciences cognitives (EEG) ont rendu la notion de fréquence vibratoire familière.
+        Mais il n’y a pas que notre cerveau qui possède une activité électromagnétique. Notre corps entier et tout notre environnement sont également sujets à des variations de fréquence vibratoire. La musique est l’un des moyens les plus simples de s’en rendre compte.
+        Planches de radiestésie et pendules de tout type disponibles sur <a href="https://www.formation-magnetisme.net/">formation-magnetisme.net</a>
+      </p>
+       <button class="close-btn" id="closeBtn">Close</button>
+     </div>
+   </div>
+ 
 
   <!-- Video stream from the camera -->
   <!-- <video id="video" autoplay playsinline></video> -->
@@ -191,6 +287,12 @@
   
   <!-- JavaScript to handle camera and capture -->
   <script src="js/app.js"></script>
+
+  <footer>
+    <p>Author: ensemble 2 fan 2 magnétiseurs<br>
+    <a href="https://www.youtube.com/watch?v=DE_rw0Fta5M" target="_blank">fan2energy.org</a></p>
+  </footer>
+  
 
 </body>
 </html>
