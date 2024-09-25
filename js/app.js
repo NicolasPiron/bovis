@@ -3,63 +3,74 @@ document.addEventListener('DOMContentLoaded', function () {
     const messageRanges = [
         {
           min: 0,
-          max: 2000,
+          max: 5000,
           messages: [
             "la CATA mec",
             "c'est vraiment la honte",
             "brûler de la sauge de TOUTE URGENCE",
             "Aie aie aie",
-            "Je préfère en rire"
+            "Je préfère en rire",
+            "mal mal mal"
           ],
-          image: 'img/angry.jpg'
+          image: 'img/annoyed.jpg'
         },
         {
-          min: 2001,
-          max: 4000,
+          min: 5001,
+          max: 10000,
           messages: [
             "Pas terrible",
             "Il faudrait revoir ça",
             "Possible d'aller voir un Shaman?",
             "C'est mort pour le chakra #narut",
-            'Fréquence de parking souterrain.',
+            'Fréquence de parking souterrain',
             "WOW c'est nul à CHIER",
             "mal" 
           ],
           image: 'img/bored.jpg'
         },
         {
-          min: 4001,
-          max: 10000,
+          min: 10001,
+          max: 15000,
           messages: [
-            "Encore un effort pour passer la barre du médiocre.",
+            "Achète un talisman",
             "bof (la gerbe)",
             "Possible de VIBRER par PITIÉ",
             "C'est faiblard",
             "Faiblisssime",
-            'Pudlard c\'est non',
+            'relire Raël',
+          ],
+          image: 'img/angry.jpg'
+        },
+        {
+          min: 15001,
+          max: 20000,
+          messages: [
+            "Presque potable (in term of bovis)",
+            "ça vibrotte",
+            "Wow (non c'est nul)"
           ],
           image: 'img/dumb.jpg'
         },
         {
-          min: 10001,
-          max: 20000,
-          messages: [
-            "Presque potable (in term of bovis)",
-            "Amazing vibrations!",
-            "Off the charts!",
-            "Wow! Impressive!",
-            "Your energy is high!"
-          ],
-          image: 'img/annoyed.jpg'
+            min: 20001,
+            max: 25000,
+            messages: [
+                "bien",
+                "concentre toi un peu mais c'est bien",
+                "ça vibre",
+                "peut faire un bachelor de psycho"
+            ],
+            image: 'img/bien.jpg'
+
         },
         {
-            min: 20001,
+            min: 25001,
             max: 30000,
             messages: [
               "BRAVO pour la collection de cristeaux",
               "Impressive (in term of bovis)",
               "ça vibre ça vibre",
-              "Wow! Impressive!",
+              "Bovissely speaking",
               "bloinstre"
             ],
           image: 'img/smile.jpg'
@@ -69,10 +80,10 @@ document.addEventListener('DOMContentLoaded', function () {
             max: 35000,
             messages: [
               "Peut lancer sa secte",
-              "Lithoterapeute si on me demande",
-              "Off the charts!",
-              "Wow! Impressive!",
-              "Your energy is high!"
+              "Lithoterapiste si on me demande",
+              "Je peux vous acheter un cristal?",
+              "neurones qui vibrent",
+              "esotérisme et tutti quanti",
             ],
           image: 'img/nice.jpg'
           },
@@ -83,8 +94,6 @@ document.addEventListener('DOMContentLoaded', function () {
               "Singerie de vibrer autant",
               "blirp blorg barf (alien language)",
               "les larmes (die Larmen)",
-              "Wow! Impressive!",
-              "Your energy is high!"
             ],
           image: 'img/clap.jpg'
           }
@@ -112,6 +121,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const startAngle = Math.PI;
         const endAngle = 2 * Math.PI;
 
+        const tickLength = 10; // Length of the ticks
+        const numberOffset = 20; // Distance of numbers from the scale
+
         // Clear previous drawing
         scaleCtx.clearRect(0, 0, scaleCanvas.width, scaleCanvas.height);
 
@@ -127,6 +139,40 @@ document.addEventListener('DOMContentLoaded', function () {
         scaleCtx.strokeStyle = gradient;
         scaleCtx.stroke();
         scaleCtx.closePath();
+
+          // Draw ticks and numbers
+        const numTicks = 10; // Number of ticks
+        const tickInterval = maxValue / numTicks; // Interval for numbers and ticks
+        for (let i = 0; i <= numTicks; i++) {
+            // Calculate the angle for each tick
+            const value = i * tickInterval;
+            const angle = startAngle + (i / numTicks) * (endAngle - startAngle);
+
+            // Coordinates for the tick start and end points
+            const tickStartX = centerX + (radius - tickLength) * Math.cos(angle);
+            const tickStartY = centerY + (radius - tickLength) * Math.sin(angle);
+            const tickEndX = centerX + radius * Math.cos(angle);
+            const tickEndY = centerY + radius * Math.sin(angle);
+
+            // Draw the tick
+            scaleCtx.beginPath();
+            scaleCtx.moveTo(tickStartX, tickStartY);
+            scaleCtx.lineTo(tickEndX, tickEndY);
+            scaleCtx.lineWidth = 2;
+            scaleCtx.strokeStyle = '#000000';
+            scaleCtx.stroke();
+            scaleCtx.closePath();
+
+            // Coordinates for the number
+            const numberX = centerX + (radius + numberOffset) * Math.cos(angle);
+            const numberY = centerY + (radius + numberOffset) * Math.sin(angle);
+
+            // Draw the number
+            scaleCtx.font = '12px Arial';
+            scaleCtx.fillStyle = '#000000';
+            scaleCtx.textAlign = 'center';
+            scaleCtx.fillText(value.toString(), numberX, numberY);
+        }
 
         // Calculate the angle for the needle
         const angle = startAngle + (randomNumber / maxValue) * (endAngle - startAngle);
