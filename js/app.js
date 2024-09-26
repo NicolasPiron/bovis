@@ -122,8 +122,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const scaleCtx = scaleCanvas.getContext('2d');
     const loadingSpinner = document.getElementById('loadingSpinner');
     const loadingMessage = document.getElementById('loadingMessage');
+    // const numberOverlay = document.getElementById('number-overlay');
     const resultImage = document.getElementById('resultImage');  // Get the result image element
     let isPhotoTaken = false; // Flag to check if a photo has been taken
+    let bubbleElement = document.getElementById('bubble');
 
     const infoIcon = document.getElementById('infoIcon');
     const infoModal = document.getElementById('infoModal');
@@ -291,12 +293,15 @@ document.addEventListener('DOMContentLoaded', function () {
             const randomNumber = Math.floor(Math.random() * 40001);
             const foundRange = messageRanges.find(range => randomNumber >= range.min && randomNumber <= range.max);
             const randomMessage = foundRange ? foundRange.messages[Math.floor(Math.random() * foundRange.messages.length)] : "No message found!";
-            randomNumberDiv.textContent = `${randomNumber} Unités Bovis`;
+            randomNumberDiv.innerHTML = `<p style="color: white;">${randomNumber} Unités Bovis</p>`;
+            randomNumberDiv.classList.add('number-overlay');  // Show the random number text
             messageDiv.textContent = randomMessage;
-              
+            bubbleElement.innerHTML = `<p>${randomMessage}</p>`;
+            bubbleElement.style.display = 'block';  // Show the message bubble
            // Display the corresponding image
             resultImage.src = foundRange ? foundRange.image : '';
             resultImage.style.display = 'block';  // Show the result image
+            // numberOverlay.classList.add('show');  // Show the number overlay
             resultImage.classList.add('rotate-and-flicker');
 
             // Check if the rotate-and-flicker class is applied
@@ -311,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Show the scale after loading
             scaleCanvas.style.display = 'block';
-            }, 1);  // 3-second delay
+            }, 3000);  // 3-second delay
 
     }
 
@@ -319,8 +324,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function resetToCamera() {
         capturedImage.style.display = 'none'; // Hide the captured image
         resultImage.style.display = 'none'; // Hide the result image
+        randomNumberDiv.classList.remove('number-overlay');  // Hide the random number text
         randomNumberDiv.textContent = '';  // Clear the random number text
-        messageDiv.textContent = '';  // Clear the message  
+        messageDiv.textContent = '';  // Clear the message
+        bubbleElement.style.display = 'none';  // Hide the message bubble
         scaleCanvas.style.display = 'none';  // Hide the scale
         video.style.display = 'block';  // Show the video feed
         captureButton.textContent = 'Prendre une photo';  // Change button text back

@@ -156,21 +156,7 @@
       margin-bottom: 0px;
     }
 
-        /* Style for the random number and message */
-
-      /* #message {
-        margin-top: 5px;
-        font-size: 12px;
-        color: #333;
-        text-align: left;
-        margin-bottom: 1px;
-        border: 1px solid #ccc;     
-        padding: 10px;              
-        background-color: #f9f9f9;   
-        box-shadow: 3px 3px 5px #eee; 
-
-    } */
-    #message, #randomNumber {
+    #randomNumber {
       margin-top: 5px;
       font-weight: bold;
       font-size: 14px;
@@ -178,12 +164,66 @@
       text-align: center;
       margin-bottom: 1px;
     }
-    /* #message {
-      margin-top: 10px;
-      font-size: 12px;
+
+    #message{
+      margin-top: 5px;
+      font-weight: bold;
+      font-size: 10px;
       color: #333;
-      margin-bottom: 10px;
-    } */
+      text-align: center;
+      margin-bottom: 1px;
+    }
+    
+    .speech-bubble {
+      position: relative;        /* Allows positioning of the "tail" */
+      background-color: #f0f0f0; /* Light background color for the bubble */
+      border-radius: 10px;       /* Rounded corners */
+      padding: 10px 10px;        /* Padding inside the bubble */
+      max-width: 200px;          /* Max width of the bubble */
+      display: table;             /* Use flexbox for centering */
+      justify-content: center;   /* Horizontally center the text */
+      align-items: center;       /* Vertically center the text */
+      min-height: 0px;          /* Set a minimum height to ensure bubble is large enough */
+      text-align: center;        /* Optional: Center-align text for multiline scenarios */
+      margin-right: 10px;        /* Space between the bubble and the image */
+      display: none;             /* Initially hidden */
+    }
+
+    .speech-bubble::after {
+      content: "";              /* Creates the bubble "tail" */
+      position: absolute;       /* Allows us to position the tail relative to the bubble */
+      top: 50%;                 /* Vertically center the tail */
+      right: -20px;             /* Position it to the right of the bubble */
+      border-width: 10px;       /* Size of the triangle */
+      border-style: solid;
+      border-color: transparent transparent transparent #f0f0f0; /* Arrow color same as bubble background */
+      transform: translateY(-50%); /* Centers the arrow vertically */
+    }
+
+    .speech-bubble p {
+      display: table-cell; /* Allows vertical centering of text */
+      vertical-align: middle; /* Vertically center the text */
+      text-align: center; /* Center-align text */
+    }
+
+    .number-container {
+      position: relative;    /* Allows absolute positioning of the number inside the container */
+      display: inline-block; /* Keeps the image and number together */
+    }
+
+    .number-overlay {
+      position: absolute;    /* Position the number absolutely inside the container */
+      top: 10px;             /* Adjust the top position */
+      right: 10px;           /* Adjust the right position */
+      transform: translate(-130%, -35%);
+      background-color: rgba(255, 0, 0, 0.7); /* Semi-transparent red background */        /* Text color */
+      padding: 5px 10px;     /* Padding around the number */
+      border-radius: 50%;    /* Makes the number look like a circle */
+      font-size: 20px;       /* Font size */
+      font-weight: bold;     /* Bold font */
+      /* Apply the flicker animation */
+      animation: flicker 1s infinite alternate;
+    }
 
     /* Style for the scale */
     #scaleCanvas {
@@ -266,19 +306,26 @@
     <img id="capturedImage" src="" alt="Captured Image">
   </div>
 
-
    <!-- Container for button and result image -->
    <div class="button-image-container">
     <button id="captureButton">Prendre une photo</button>
+    
   </div>
 
+  <!-- <div id="randomNumber"></div> -->
+  
+
   <div class="result-message-container">
-    <div>
-      <div id="randomNumber"></div>
-      <div id="message"></div>
+    <div class="speech-bubble" id="bubble">
+      <p id="message"></p>
     </div>
     <img id="resultImage" src="" alt="Result Image">
   </div>
+
+  <div class="number-container">
+    <div id="randomNumber"></div>
+  </div>
+  
 
   <!-- Container for the message and scale -->
   <div class="message-scale-container">
@@ -286,11 +333,13 @@
   </div>
 
 
+
+
   <!-- Loading spinner and message -->
   <div id="loadingSpinner">
     <div></div>
   </div>
-  <div id="loadingMessage">Veuillez patienter pendant que nous mesurons la fréquence vibratoire...</div>
+  <div id="loadingMessage">Veuillez patienter pendant que nous mesurons les bovis...</div>
 
   
   <!-- JavaScript to handle camera and capture -->
