@@ -156,8 +156,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const startAngle = Math.PI;
         const endAngle = 2 * Math.PI;
 
-        const tickLength = 10; // Length of the ticks
-        const numberOffset = 20; // Distance of numbers from the scale
+        const tickLength = 20; // Length of the ticks
+        const numberOffset = 38; // Distance of numbers from the scale
 
         // Clear previous drawing
         scaleCtx.clearRect(0, 0, scaleCanvas.width, scaleCanvas.height);
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         scaleCtx.beginPath();
         scaleCtx.arc(centerX, centerY, radius, startAngle, endAngle);
-        scaleCtx.lineWidth = 20;
+        scaleCtx.lineWidth = 40;
         scaleCtx.strokeStyle = gradient;
         scaleCtx.stroke();
         scaleCtx.closePath();
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const numberY = centerY + (radius + numberOffset) * Math.sin(angle);
 
             // Draw the number
-            scaleCtx.font = '12px Arial';
+            scaleCtx.font = '14px Arial';
             scaleCtx.fillStyle = '#000000';
             scaleCtx.textAlign = 'center';
             scaleCtx.fillText(value.toString(), numberX, numberY);
@@ -268,10 +268,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const randomNumber = Math.floor(Math.random() * 40001);
 
         // Find the message range corresponding to the random number
-        const foundRange = messageRanges.find(range => randomNumber >= range.min && randomNumber <= range.max);
+        // const foundRange = messageRanges.find(range => randomNumber >= range.min && randomNumber <= range.max);
 
-        // If a range is found, select a random message from the array
-        const randomMessage = foundRange ? foundRange.messages[Math.floor(Math.random() * foundRange.messages.length)] : "No message found!";
+        // // If a range is found, select a random message from the array
+        // const randomMessage = foundRange ? foundRange.messages[Math.floor(Math.random() * foundRange.messages.length)] : "No message found!";
 
         // Switch from video to the captured image
         video.style.display = 'none';  // Hide the video feed
@@ -293,12 +293,15 @@ document.addEventListener('DOMContentLoaded', function () {
             const randomMessage = foundRange ? foundRange.messages[Math.floor(Math.random() * foundRange.messages.length)] : "No message found!";
             randomNumberDiv.textContent = `${randomNumber} Unités Bovis`;
             messageDiv.textContent = randomMessage;
-            
-            
-
-             // Display the corresponding image
+              
+           // Display the corresponding image
             resultImage.src = foundRange ? foundRange.image : '';
             resultImage.style.display = 'block';  // Show the result image
+            resultImage.classList.add('rotate-and-flicker');
+
+            // Check if the rotate-and-flicker class is applied
+            console.log('foundRange.image:', foundRange.image);
+            console.log('Is rotate-and-flicker class applied?', resultImage.classList.contains('rotate-and-flicker'));
 
             drawScale(randomNumber);
 
@@ -308,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Show the scale after loading
             scaleCanvas.style.display = 'block';
-            }, 3000);  // 3-second delay
+            }, 1);  // 3-second delay
 
     }
 
@@ -338,5 +341,6 @@ document.addEventListener('DOMContentLoaded', function () {
   
     // Start the camera on page load
     startCamera();
+
   });
   
