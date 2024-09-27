@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
           max: 5000,
           messages: [
             "la CATA mec",
-            "c'est vraiment la honte",
+            "c'est vraiment la HONTE",
             "brûler de la sauge de TOUTE URGENCE",
             "Aie aie aie",
             "Ne pas toucher cet objet ou individu",
@@ -15,21 +15,22 @@ document.addEventListener('DOMContentLoaded', function () {
             "gerbe",
             "Aucune défense contre les forces du mal"
           ],
-          image: 'img/annoyed.jpg'
+          image: 'img/annoyed.jpg',
+          sound: 'audio/womp.mp3'
         },
         {
           min: 5001,
           max: 10000,
           messages: [
-            "Pas terrible",
-            "Il faudrait revoir ça",
-            "Consutler un chamane au plus vite",
+            "frr concentre toi",
+            "Besoin 2 chamanisme",
             "C'est mort pour le chakra #narut",
             'Fréquence de parking souterrain',
             "grosse merde va",
             "mal", 
           ],
-          image: 'img/bored.jpg'
+          image: 'img/bored.jpg',
+          sound: 'audio/womp2.mp3'
         },
         {
           min: 10001,
@@ -42,7 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
             "Faiblisssime",
             'relire Raël',
           ],
-          image: 'img/angry.jpg'
+          image: 'img/angry.jpg',
+          sound: 'audio/ltoons.mp3'
         },
         {
           min: 15001,
@@ -55,7 +57,8 @@ document.addEventListener('DOMContentLoaded', function () {
             "Potentiel pour devenir influenceur yoga au mieux",
             "Une améthyste dans le fiak et ça repart"
           ],
-          image: 'img/dumb.jpg'
+          image: 'img/dumb.jpg',
+          sound: 'audio/sponge.mp3'
         },
         {
           min: 20001,
@@ -66,10 +69,12 @@ document.addEventListener('DOMContentLoaded', function () {
               "Elligible pour un bachelor en psycho au mieux",
               "Juste un peu de sauge et on y est",
               "Autorisation d'utiliser un pendule divinatoire",
-              "Protégé des entités maléfiques"
+              "Protégé des entités maléfiques",
+              "j'ADORE les cristaux et autres minéraux scintillants",
+              "Trouvez ci-joint ma formation en ligne pour devenir magnétiseur",
           ],
-          image: 'img/bien.jpg'
-
+          image: 'img/bien.jpg',
+          sound: 'audio/flute.mp3'
         },
         {
             min: 25001,
@@ -80,9 +85,11 @@ document.addEventListener('DOMContentLoaded', function () {
               "ça vibre ça vibre",
               "Bovissely speaking, c'est oui",
               "Remarquable (in term of bovis)",
-              "Elligible pour devenir coach spirituel"
+              "Elligible pour devenir coach spirituel",
+              "Plutôt clochettes ou harpe? (in term of esoteric music)"
             ],
-          image: 'img/smile.jpg'
+          image: 'img/smile.jpg',
+          sound: 'audio/bells2.mp3'
           },
           {
             min: 30001,
@@ -94,9 +101,11 @@ document.addEventListener('DOMContentLoaded', function () {
               "neurones qui vibrent",
               "esotérisme et tutti quanti",
               "^ full of bovis",
-              "Potentiel pour devenir thérapeute energétique"
+              "Potentiel pour devenir thérapeute energétique",
+              "Tu m'achètes une amulette?",
             ],
-          image: 'img/nice.jpg'
+          image: 'img/nice.jpg',
+          sound: 'audio/alien.mp3'
           },
           {
             min: 35001,
@@ -104,11 +113,14 @@ document.addEventListener('DOMContentLoaded', function () {
             messages: [
               "Bovisserie, j'ai pas raison la team?",
               "Cosmisme",
+              "Sharingan: ouvert",
               "ça casse le compteur ou quoi!?",
               "blirp blorg barf (alien language)",
               "les larmes (die Larmen)",
+              "Je suis passionné de vie extraterrestre",
             ],
-          image: 'img/clap.jpg'
+          image: 'img/clap.jpg',
+          sound: 'audio/alien2.mp3'
           }
       ];
   
@@ -122,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const scaleCtx = scaleCanvas.getContext('2d');
     const loadingSpinner = document.getElementById('loadingSpinner');
     const loadingMessage = document.getElementById('loadingMessage');
-    // const numberOverlay = document.getElementById('number-overlay');
+    const audioPlayer = document.getElementById('audioPlayer');
     const resultImage = document.getElementById('resultImage');  // Get the result image element
     let isPhotoTaken = false; // Flag to check if a photo has been taken
     let bubbleElement = document.getElementById('bubble');
@@ -301,6 +313,9 @@ document.addEventListener('DOMContentLoaded', function () {
            // Display the corresponding image
             resultImage.src = foundRange ? foundRange.image : '';
             resultImage.style.display = 'block';  // Show the result image
+            // Play the corresponding sound
+            audioPlayer.src = foundRange ? foundRange.sound : '';
+            audioPlayer.play();  // Play the sound
             // numberOverlay.classList.add('show');  // Show the number overlay
             resultImage.classList.add('rotate-and-flicker');
 
@@ -329,6 +344,7 @@ document.addEventListener('DOMContentLoaded', function () {
         messageDiv.textContent = '';  // Clear the message
         bubbleElement.style.display = 'none';  // Hide the message bubble
         scaleCanvas.style.display = 'none';  // Hide the scale
+        audioPlayer.pause();  // Pause the audio
         video.style.display = 'block';  // Show the video feed
         captureButton.textContent = 'Prendre une photo';  // Change button text back
         isPhotoTaken = false;  // Set the photo taken flag to false
