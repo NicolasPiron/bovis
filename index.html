@@ -110,7 +110,7 @@
     }
     #captureButton {
       padding: 1x 1px;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     #resultImage {
@@ -304,12 +304,13 @@
   <div class="video-container">
     <video id="video" autoplay playsinline></video>
     <img id="capturedImage" src="" alt="Captured Image">
+    
   </div>
 
    <!-- Container for button and result image -->
    <div class="button-image-container">
     <button id="captureButton">Prendre une photo</button>
-    
+    <button onclick="toggleCamera()">Switch Camera</button>
   </div>
 
   <!-- <div id="randomNumber"></div> -->
@@ -342,7 +343,7 @@
   <div id="loadingMessage">Veuillez patienter pendant que nous mesurons les bovis...</div>
 
   <audio id="audioPlayer"></audio>
-  
+
   <!-- JavaScript to handle camera and capture -->
   <script src="js/app.js"></script>
 

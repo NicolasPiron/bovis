@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
             "la CATA mec",
             "c'est vraiment la HONTE",
             "brûler de la sauge de TOUTE URGENCE",
-            "Aie aie aie",
             "Ne pas toucher cet objet ou individu",
             "Je préfère en rire",
             "mal mal mal",
@@ -113,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
             messages: [
               "Bovisserie, j'ai pas raison la team?",
               "Cosmisme",
-              "Sharingan: ouvert",
+              "Sharingan deux points ouvert",
               "ça casse le compteur ou quoi!?",
               "blirp blorg barf (alien language)",
               "les larmes (die Larmen)",
@@ -235,13 +234,14 @@ document.addEventListener('DOMContentLoaded', function () {
         scaleCtx.stroke();
         scaleCtx.closePath();
   }
-  
+
+    let currentFacingMode = "environment";
     // Function to start the camera
     async function startCamera() {
         try {
             const constraints = {
             video: {
-                facingMode: "environment" // Use the back camera
+                facingMode: currentFacingMode
             }
             };
             const stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -250,6 +250,20 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error("Error accessing the camera: ", error);
             alert("Unable to access the back camera. Please ensure it's available and you have granted permission.");
         }
+    }
+
+        // Function to toggle between front and back camera
+    async function toggleCamera() {
+      // Toggle the camera facing mode
+      currentFacingMode = currentFacingMode === "environment" ? "user" : "environment";
+      
+      // Stop all video streams
+      if (video.srcObject) {
+          video.srcObject.getTracks().forEach(track => track.stop());
+      }
+
+      // Restart the camera with the new facing mode
+      startCamera();
     }
 
 
